@@ -5,6 +5,61 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+    <!--第一种方法-->
+    // 这个方法地理位置有点获取不是太准确
+    var data={
+        location:"39.984154,116.307490",
+        /*换成自己申请的key*/
+        key:"QINBZ-UDJ3X-4LZ4U-ZKBQ4-ZKAGZ-V4FLD",
+        get_poi:0
+    }
+    var url="http://apis.map.qq.com/ws/geocoder/v1/?";
+    data.output="jsonp";
+    $.ajax({
+        type: "get",
+        dataType: 'jsonp',
+        data: data,
+        jsonp: "callback",
+        jsonpCallback: "QQmap",
+        url: url,
+        success: function (json) {
+            /*json对象转为文本 var aToStr=JSON.stringify(a);*/
+            var toStr = JSON.stringify(json);
+            var toParse = JSON.parse(toStr)
+            var adCode = toParse.result.ad_info.adcode
+            console.log(adCode)
+            console.log(toParse)
+            toStr = getFormatJsonStrFromString(toStr);
+            /*调用业务处理程序*/
+            // suggestion_example&&suggestion_example($show,url_list,toStr);
 
+        },
+        error: function (err) {
+            alert("服务端错误，请刷新浏览器后重试")
+        }
+
+    })
+/*第二种获取国标码的方法*/
+    function LoadType() {
+        $.ajax({
+            async:true,
+            url: "https://apis.map.qq.com/ws/location/v1/ip?",
+            type: 'GET',
+            data:{
+                key:"QINBZ-UDJ3X-4LZ4U-ZKBQ4-ZKAGZ-V4FLD",
+            },
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (backData) {
+                console.log(backData.result.ad_info.adcode)
+            },
+            error: function (x, y, z) {
+                console.log("error!");
+            }
+        });
+    }
+    LoadType()
+</script>
 </body>
 </html>

@@ -12,30 +12,106 @@
 </head>
 <body>
 	<button class="btn">日期选择器</button>
+	<div id="pullrefresh" class="mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">data</li>
+				<li class="mui-table-view-cell">data</li>
+			</ul>
+		</div>
+	</div>
+	<div class="list-t-wrap">
+		<div id="refreshContainer" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="list-wrapper">
+					<!--列表一定要放到容器内,因为会有一个div append到mui-scroll中,需要在底部才能起作用-->
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 <script>
+	//mui下来加载
+
+    mui.init({
+        pullRefresh : {
+            swipeBack: false, //关闭左滑关闭功能
+            container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+            down : {
+                style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+                color:'#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+                height:'50px',//可选,默认50px.下拉刷新控件的高度,
+                range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+                offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+                auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                callback :function () {
+                    var self = this; // 这里的this == mui('#refreshContainer').pullRefresh()
+                    // 加载更多的内容
+                    loadMore(this);
+                } ,//必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            },
+            up:{
+                contentrefresh: '正在加载...',
+                contentnomore:'没有更多数据了',
+                callback:function () {
+        var self = this; // 这里的this == mui('#refreshContainer').pullRefresh()
+        // 加载更多的内容
+        loadMore(this);
+    }
+            },
+        }})
+    var loadMore = function(pullRefresh) {
+        // 加载更多的内容到列表中
+
+        // 如果没有更多数据了，则关闭上拉加载
+        pullRefresh.endPullupToRefresh(true);
+        // 如果有更多数据，则继续
+        pullRefresh.endPullupToRefresh(false);
+    };
+    // mui.ajax("请求url", {
+    //     type: "get",
+    //     dataType: "json",
+    //     data:{
+    //         param:1,
+    //         name:2
+    //     },
+    //     success: function(data){
+    //         //将获取到的数据动态赋值给列表，假设scroller为滚动容器
+    //         //如果数据不到一页，显示“没有更多数据了”,关闭上拉功能
+    //         //scroller.endPullupToRefresh(true);
+    //         //scroller.querySelector(".mui-pull-bottom-pocket .mui-pull-caption").innerHTML = "没有更多数据了";
+    //         //如果对于关闭的上拉功能，可以通过以下语句重置上拉加载功能。
+    //         //mui('#pullrefresh').pullRefresh().refresh(true);
+    //     }
+    // });
+
+
+
+
 	//日期选择器
 	//dtpicker组件适用于弹出日期选择器
-	document.getElementsByClassName("btn")[0].addEventListener('click',function(){
-		//通过new mui.DtPicker()初始化DtPicker组件
-		var dtPicker = new mui.DtPicker({
-			type: "date",//设置日历初始视图模式
-		    beginDate: new Date(2018, 00, 09),//设置开始日期
-		    labels: ['Year', 'Mon', 'Day', 'Hour', 'min'],//设置默认标签区域提示语 
-		    /*
-		    customData: { 
-		        h: [
-		            { value: 'AM', text: 'AM' },
-		            { value: 'PM', text: 'PM' }
-		        ] 
-		    }
-		    */
-		    //时间/日期别名 
-		});
-		//显示picker
-	    dtPicker.show(function (e) { 
-	       console.log(e)
-	    })
-	})
+	// document.getElementsByClassName("btn")[0].addEventListener('click',function(){
+	// 	//通过new mui.DtPicker()初始化DtPicker组件
+	// 	var dtPicker = new mui.DtPicker({
+	// 		type: "date",//设置日历初始视图模式
+	// 	    beginDate: new Date(2018, 00, 09),//设置开始日期
+	// 	    labels: ['Year', 'Mon', 'Day', 'Hour', 'min'],//设置默认标签区域提示语
+	// 	    /*
+	// 	    customData: {
+	// 	        h: [
+	// 	            { value: 'AM', text: 'AM' },
+	// 	            { value: 'PM', text: 'PM' }
+	// 	        ]
+	// 	    }
+	// 	    */
+	// 	    //时间/日期别名
+	// 	});
+	// 	//显示picker
+	//     dtPicker.show(function (e) {
+	//        console.log(e)
+	//     })
+	// })
+	var load ;
+	console.log(load)
 </script>
 </html>

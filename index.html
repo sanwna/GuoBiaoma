@@ -16,4 +16,16 @@
 <script src="lib/dropload.js"></script>
 <script src="lib/khData.js"></script>
 </body>
+<script type="text/javascript">
+  let obj = {
+      name:"lalla",
+      getname:function () {
+          return this.name
+      }
+  }
+  let fn = obj.getname()
+  fn();
+  console.log("输出结果",fn())
+
+</script>
 </html>

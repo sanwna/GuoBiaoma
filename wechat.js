@@ -1,9 +1,11 @@
 // pages/equity/equity.js
 var $ = getApp()
+
 Page({
     /**
      * 页面的初始数据
      */
+
     data: {
         userName: "",
         caredfName: '',
